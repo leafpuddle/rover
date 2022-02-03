@@ -9,7 +9,7 @@ namespace Rover.Modules
         public async Task RollDice()
         {
             Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
-            await ReplyAsync(((rand.Next() / 20) + 1).ToString());
+            await ReplyAsync(((rand.Next() % 20) + 1).ToString());
         }
 
         [Command("rolldice")]
@@ -21,9 +21,9 @@ namespace Rover.Modules
                 await ReplyAsync("The number specified must be 1 or greater.");
                 return;
             }
-            
+
             Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
-            await ReplyAsync(((rand.Next() / sides) + 1).ToString());
+            await ReplyAsync(((rand.Next() % sides) + 1).ToString());
         }
     }
 }

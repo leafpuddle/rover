@@ -9,7 +9,7 @@ namespace Rover.Modules
         public async Task RandomNumber()
         {
             Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
-            await ReplyAsync(((rand.Next() / 100) + 1).ToString());
+            await ReplyAsync(((rand.Next() % 100) + 1).ToString());
         }
 
         [Command("randomnumber")]
@@ -23,7 +23,7 @@ namespace Rover.Modules
             }
 
             Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
-            await ReplyAsync(((rand.Next() / a) + 1).ToString());
+            await ReplyAsync(((rand.Next() % a) + 1).ToString());
         }
 
         [Command("randomnumber")]
@@ -42,7 +42,7 @@ namespace Rover.Modules
             upper = Math.Max(a, b);
 
             Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
-            await ReplyAsync(((rand.Next() / (upper - lower)) + lower).ToString());
+            await ReplyAsync(((rand.Next() % (upper - lower)) + lower).ToString());
         }
     }
 }
