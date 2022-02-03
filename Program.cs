@@ -9,6 +9,7 @@ namespace Rover
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
+        private readonly string _botToken;
 
         static void Main(string[] args)
         {
@@ -31,6 +32,13 @@ namespace Rover
 
             _client.Log += Log;
             _commands.Log += Log;
+
+            _botToken = Environment.GetEnvironmentVariable("rover_botToken");
+
+            if (_botToken == null)
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         private static Task Log(LogMessage message)
@@ -62,7 +70,7 @@ namespace Rover
         {
             await InitCommands();
 
-            await _client.LoginAsync(TokenType.Bot, "REPLACE THIS WITH BOT TOKEN");
+            await _client.LoginAsync(TokenType.Bot, _botToken);
             await _client.StartAsync();
 
             await Task.Delay(Timeout.Infinite);
