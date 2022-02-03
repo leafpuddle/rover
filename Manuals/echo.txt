@@ -1,0 +1,8 @@
+```
+echo: Echoes a string of text.
+
+Usage: !echo "[Message]"
+
+Example: !echo "This is a message Rover will repeat!"
+  - This will return the text 'This is a message Rover will repeat!'
+```

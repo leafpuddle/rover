@@ -1,0 +1,7 @@
+```
+help: Displays instructions for using a specific command.
+
+Usage: !help [command]
+
+Example: !help list
+```

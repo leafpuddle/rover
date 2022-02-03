@@ -8,61 +8,38 @@ namespace Rover.Modules
         [Summary("Provides instructions for using the help command.")]
         public async Task Help()
         {
-            await ReplyAsync(HelpMan());
+            string manpage;
+
+            try
+            {
+                manpage = System.IO.File.ReadAllText(@"\Manuals\help.txt");
+            }
+            catch (FileNotFoundException)
+            {
+                await ReplyAsync("Contact the Rover Admin. The Help manual is not found, which could mean there are issues with me.");
+                return;
+            }
+
+            await ReplyAsync(manpage);
         }
 
         [Command("help")]
         [Summary("Provides instructions for using a command.")]
         public async Task Help(string command)
         {
-            switch(command)
+            string manpage;
+
+            try
             {
-                // DevTools Commands
-                case "echo":
-                    await ReplyAsync(ModuleEcho.HelpMan());
-                    break;
-                case "ping":
-                    await ReplyAsync(ModulePing.HelpMan());
-                    break;
-
-                // Information Commands
-                case "help":
-                    await ReplyAsync(HelpMan());
-                    break;
-                case "intro":
-                    await ReplyAsync("TODO: intro HelpMan");
-                    break;
-                case "list":
-                    await ReplyAsync("TODO: list HelpMan");
-                    break;
-
-                // Utilities Commands
-                case "flipcoin":
-                    await ReplyAsync("TODO: flipcoin HelpMan");
-                    break;
-                case "randomnumber":
-                    await ReplyAsync("TODO: randomnumber HelpMan");
-                    break;
-                case "rolldice":
-                    await ReplyAsync("TODO: rolldice HelpMan");
-                    break;
-
-                // Catchall
-                default:
-                    await ReplyAsync("That command could not be found.");
-                    break;
+                manpage = System.IO.File.ReadAllText(@$"\Manuals\{command}.txt");
             }
-        }
+            catch (FileNotFoundException)
+            {
+                await ReplyAsync("This command is not found.");
+                return;
+            }
 
-        public static string HelpMan()
-        {
-            return @"```
-            help: Displays instructions for using a specific command.
-
-            Usage: !help [command]
-
-            Example: !help list
-            ```";
+            await ReplyAsync(manpage);
         }
     }
 }

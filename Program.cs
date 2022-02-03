@@ -9,7 +9,7 @@ namespace Rover
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
-        private readonly string _botToken;
+        private readonly string? _botToken;
 
         static void Main(string[] args)
         {
@@ -37,7 +37,7 @@ namespace Rover
             {
                 _botToken = Environment.GetEnvironmentVariable("rover_botToken");
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException e) when (_botToken == null)
             {
                 Log(new LogMessage(
                     LogSeverity.Critical,

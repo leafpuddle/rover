@@ -10,14 +10,5 @@ namespace Rover.Modules
         {
             await ReplyAsync("Ping received.");
         }
-
-        public static string HelpMan()
-        {
-            return @"```
-            ping: Responds if the ping command is received.
-
-            Usage: !ping
-            ```";
-        }
     }
 }
