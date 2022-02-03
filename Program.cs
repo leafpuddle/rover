@@ -37,13 +37,13 @@ namespace Rover
             {
                 _botToken = Environment.GetEnvironmentVariable("rover_botToken");
             }
-            catch (ArgumentNullException e) when (_botToken == null)
+            catch (ArgumentNullException e)
             {
                 Log(new LogMessage(
                     LogSeverity.Critical,
                     "Startup",
                     "No bot token found at environment variable 'rover_botToken'. The variable is either empty or missing.",
-                    new ArgumentNullException())
+                    e)
                 );
             }
         }
