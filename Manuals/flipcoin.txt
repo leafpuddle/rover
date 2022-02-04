@@ -1,0 +1,5 @@
+```
+flipcoin: Returns the result of a coin flip.
+
+Usage: !flipcoin
+```

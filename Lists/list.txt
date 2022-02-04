@@ -1,0 +1,7 @@
+```
+Here is a list of all command categories I have. Type !list [category] to see all commands available in that category.
+
+- devtools
+- information
+- utilities
+```

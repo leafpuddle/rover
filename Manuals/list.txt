@@ -1,0 +1,12 @@
+```
+list: Displays a list of commands within a category that Rover can respond to. If no category is specified, a list of categories is displayed. To get help with a certain command, use !help [command].
+
+Usage: !list
+Usage: !list [category]
+
+Example: !list
+  - Returns a list of command categories.
+
+Example: !list devtools
+  - Returns a list of commands under the devtools category.
+```

@@ -9,7 +9,7 @@ namespace Rover
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
-        private readonly string _botToken;
+        private readonly string? _botToken;
 
         static void Main(string[] args)
         {
@@ -33,11 +33,18 @@ namespace Rover
             _client.Log += Log;
             _commands.Log += Log;
 
-            _botToken = Environment.GetEnvironmentVariable("rover_botToken");
-
-            if (_botToken == null)
+            try
             {
-                throw new ArgumentNullException();
+                _botToken = Environment.GetEnvironmentVariable("rover_botToken");
+            }
+            catch (ArgumentNullException e) when (_botToken == null)
+            {
+                Log(new LogMessage(
+                    LogSeverity.Critical,
+                    "Startup",
+                    "No bot token found at environment variable 'rover_botToken'. The variable is either empty or missing.",
+                    e)
+                );
             }
         }
 

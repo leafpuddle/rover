@@ -1,0 +1,12 @@
+```
+rolldice: Returns the result of a dice roll. You can optionally provide a number representing the number of sides of the die. If no number is specified, a 20-sided die will be used. The number specified must be a positive number.
+
+Usage: !rolldice
+Usage: !rolldice [Number]
+
+Example: !rolldice
+  - This will roll a 20-sided die and return the result.
+
+Example: !rolldice 100
+  - This will roll a 100-sided die and return the result.
+```
