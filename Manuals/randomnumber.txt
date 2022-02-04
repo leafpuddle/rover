@@ -1,0 +1,19 @@
+```
+randomnumber: Returns a random number between a certain range. You may specify 0, 1, or 2 numbers. If 0 numbers are specified, the range of numbers is 1-100. If one number is specified, it must be greater or equal to 1. The range is 1 - specified number. If two numbers are specified, the range will be between the lower of the two values and the higher of the two values.
+
+Usage: !randomnumber
+Usage: !randomnumber [Number]
+Usage: !randomnumber [Number] [Number]
+
+Example: !randomnumber
+  - This will return a random number between 1 and 100.
+
+Example: !randomnumber 50
+  - This will return a random number between 1 and 50.
+
+Example: !randomnumber 30 75
+  - This will return a random number between 30 and 75.
+
+Example: !randomnumber 5000 4
+  - This will return a random number between 4 and 5000.
+```

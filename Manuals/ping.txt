@@ -1,0 +1,5 @@
+```
+ping: Responds if the ping command is received.
+
+Usage: !ping
+```

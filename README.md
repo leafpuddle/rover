@@ -4,5 +4,5 @@ A custom bot written by Joshua Finch (FaultyBranches) and Vi Roesler (leafpuddle
 
 ## Requires
 
-.NET 6.0
+.NET 6.0  
 Discord.NET 3.2.1
