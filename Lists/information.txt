@@ -1,0 +1,8 @@
+```
+Information commands display helpful instruction for proper bot use.
+Use ![command] to run any command listed. Use !help [command] to learn how to use a command.
+
+- help
+- intro
+- list
+```

@@ -16,7 +16,7 @@ namespace Rover.Modules
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
-                await ReplyAsync("Contact the Rover Admin. The Help manual is not found, which could mean there are issues with me.");
+                await ReplyAsync("Contact the Rover Admin. The help manual is not found, which could mean there are issues with me.");
                 return;
             }
 
