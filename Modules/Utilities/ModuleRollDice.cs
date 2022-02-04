@@ -8,7 +8,7 @@ namespace Rover.Modules
         [Summary("Returns the result of a 20-sided dice roll.")]
         public async Task RollDice()
         {
-            Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
+            Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
             await ReplyAsync(((rand.Next() % 20) + 1).ToString());
         }
 
@@ -22,7 +22,7 @@ namespace Rover.Modules
                 return;
             }
 
-            Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
+            Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
             await ReplyAsync(((rand.Next() % sides) + 1).ToString());
         }
     }

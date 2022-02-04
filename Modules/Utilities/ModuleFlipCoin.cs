@@ -8,7 +8,7 @@ namespace Rover.Modules
         [Summary("Returns the result of a coin flip.")]
         public async Task FlipCoin()
         {
-            Random rand = new Random(int.Parse(DateTime.Now.ToString("yyMMddHHmmss")));
+            Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
             if ((rand.Next() % 2) == 1) await ReplyAsync("Heads");
             else await ReplyAsync("Tails");
         }
