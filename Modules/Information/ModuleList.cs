@@ -12,7 +12,7 @@ namespace Rover.Modules
 
             try
             {
-                listpage = System.IO.File.ReadAllText(@".\Lists\list.txt");
+                listpage = System.IO.File.ReadAllText(@"./Lists/list.txt");
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
@@ -31,7 +31,7 @@ namespace Rover.Modules
 
             try
             {
-                listpage = System.IO.File.ReadAllText(@$".\Lists\{category}.txt");
+                listpage = System.IO.File.ReadAllText(@$"./Lists/{category}.txt");
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {

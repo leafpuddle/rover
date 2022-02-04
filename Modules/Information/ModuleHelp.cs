@@ -12,7 +12,7 @@ namespace Rover.Modules
 
             try
             {
-                manpage = System.IO.File.ReadAllText(@".\Manuals\help.txt");
+                manpage = System.IO.File.ReadAllText(@"./Manuals/help.txt");
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
@@ -31,7 +31,7 @@ namespace Rover.Modules
 
             try
             {
-                manpage = System.IO.File.ReadAllText(@$".\Manuals\{command}.txt");
+                manpage = System.IO.File.ReadAllText(@$"./Manuals/{command}.txt");
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
