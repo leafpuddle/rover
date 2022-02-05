@@ -8,9 +8,7 @@ namespace Rover.Modules
         [Summary("Provides version information for debugging purposes.")]
         public async Task Version()
         {
-            await ReplyAsync(
-                "Rover: v0.1\n"
-            );
+            await ReplyAsync("Rover: v0.1");
         }
     }
 }
