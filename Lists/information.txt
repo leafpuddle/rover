@@ -5,4 +5,5 @@ Use ![command] to run any command listed. Use !help [command] to learn how to us
 - help
 - intro
 - list
+- version
 ```

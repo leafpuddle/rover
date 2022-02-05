@@ -14,9 +14,14 @@ namespace Rover.Modules
             {
                 manpage = System.IO.File.ReadAllText(@"./Manuals/help.txt");
             }
-            catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
+            catch (DirectoryNotFoundException)
             {
-                await ReplyAsync("Contact the Rover Admin. The help manual is not found, which could mean there are issues with me.");
+                await ReplyAsync("Contact the Rover admins. The manual directory is not found, which could mean there are issues with me.");
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                await ReplyAsync("Contact the Rover admins. The help manual is not found, which could mean there are issues with me.");
                 return;
             }
 
@@ -35,7 +40,10 @@ namespace Rover.Modules
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
-                await ReplyAsync("This command is not found.");
+                await ReplyAsync(
+                    "This command is not found.\n" +
+                    "Either the command name was typed incorrectly, or the command doesn't exist.\n" +
+                    "If you think there should be a manual for this command, contact the Rover admins.");
                 return;
             }
 

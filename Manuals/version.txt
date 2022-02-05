@@ -1,0 +1,5 @@
+```
+version: Displays the current version of the Rover bot software.
+
+Usage: !version
+```

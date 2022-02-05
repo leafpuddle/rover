@@ -16,8 +16,6 @@ node {
     
     stage ('Deploy') {
         sh 'scp -r bin/Debug/net6.0/* rover@garmr.faultybranches.net:/var/www/rover/dist/'
-        sh 'scp -r Manuals rover@garmr.faultybranches.net:/var/www/rover/dist/'
-        sh 'scp -r Lists rover@garmr.faultybranches.net:/var/www/rover/dist/'
 
         sh 'ssh rover@garmr.faultybranches.net sudo systemctl restart rover.service'
     }
