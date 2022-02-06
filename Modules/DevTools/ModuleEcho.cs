@@ -14,7 +14,7 @@ namespace Rover.Modules
                 Title = ":speaking_head: Echo",
                 Description = $"{message}",
                 Color = 0x8A439C,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }
