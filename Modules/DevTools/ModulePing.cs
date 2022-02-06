@@ -14,7 +14,7 @@ namespace Rover.Modules
                 Title = ":satellite: Ping",
                 Description = "Ping Received",
                 Color = 0x7CA37D,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }

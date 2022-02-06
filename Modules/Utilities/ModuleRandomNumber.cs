@@ -15,7 +15,7 @@ namespace Rover.Modules
                 Title = ":grey_question: Random Number - 1 to 100",
                 Description = ((rand.Next() % 100) + 1).ToString(),
                 Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }
@@ -31,7 +31,10 @@ namespace Rover.Modules
                     Title = ":grey_question: Random Number - Error",
                     Description = "The value must be greater than or equal to 1.",
                     Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: errembed.Build());
                 return;
@@ -43,7 +46,7 @@ namespace Rover.Modules
                 Title = $":grey_question: Random Number - 1 to {a}",
                 Description = ((rand.Next() % a) + 1).ToString(),
                 Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }
@@ -56,6 +59,14 @@ namespace Rover.Modules
 
             if (a == b)
             {
+                var msgembed1 = new EmbedBuilder
+                {
+                    Title = $":grey_question: Random Number - {a} to {b}",
+                    Description = a.ToString(),
+                    Color = 0x9E845d,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
+                };
+                await ReplyAsync(embed: msgembed1.Build());
                 await ReplyAsync(a.ToString());
                 return;
             }
@@ -69,7 +80,7 @@ namespace Rover.Modules
                 Title = $":grey_question: Random Number - {lower} to {upper}",
                 Description = ((rand.Next() % ((upper + 1) - lower)) + lower).ToString(),
                 Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }

@@ -21,7 +21,7 @@ namespace Rover.Modules
                     "If you ever have questions about how a command works, you can type !help [command] to see the manual.\n" +
                     "It's nice to meet you! Happy chatting!",
                 Color = 0x419BC4,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }

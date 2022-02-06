@@ -17,7 +17,10 @@ namespace Rover.Modules
                     Title = ":coin: Coin Flip",
                     Description = "Heads!",
                     Color = 0x9E845d,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: msgembed.Build());
             }
@@ -28,7 +31,10 @@ namespace Rover.Modules
                     Title = ":coin: Coin Flip",
                     Description = "Tails!",
                     Color = 0x9E845d,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: msgembed.Build());
             }

@@ -22,7 +22,10 @@ namespace Rover.Modules
                     Title = ":warning: ERROR",
                     Description = "Contact the Rover admins. The list directory is not found, which could mean there are issues with me.",
                     Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: errembed.Build());
                 return;
@@ -34,7 +37,10 @@ namespace Rover.Modules
                     Title = ":warning: ERROR",
                     Description = "Contact the Rover admins. The category list is not found, which could mean there are issues with me.",
                     Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: errembed.Build());
                 return;
@@ -45,7 +51,7 @@ namespace Rover.Modules
                 Title = ":bookmark_tabs: List - categories",
                 Description = $"{listpage}",
                 Color = 0x419BC4,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }
@@ -70,7 +76,10 @@ namespace Rover.Modules
                         "Either the category name was typed incorrectly, or the category doesn't exist.\n" +
                         "If you think there should be a list for this category, contact the Rover admins.",
                     Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: errembed.Build());
                 return;
@@ -81,7 +90,7 @@ namespace Rover.Modules
                 Title = $":bookmark_tabs: List - {category}",
                 Description = $"{listpage}",
                 Color = 0x419BC4,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }

@@ -15,7 +15,7 @@ namespace Rover.Modules
                 Title = ":game_die: Dice Roll - 20-Sided Die",
                 Description = ((rand.Next() % 20) + 1).ToString(),
                 Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }
@@ -31,7 +31,10 @@ namespace Rover.Modules
                     Title = ":game_die: Dice Roll - Error",
                     Description = "The value must be greater than or equal to 1.",
                     Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                    }
                 };
                 await ReplyAsync(embed: errembed.Build());
                 return;
@@ -43,7 +46,7 @@ namespace Rover.Modules
                 Title = $":game_die: Dice Roll - {sides}-Sided Die",
                 Description = ((rand.Next() % sides) + 1).ToString(),
                 Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
             };
             await ReplyAsync(embed: msgembed.Build());
         }
