@@ -1,3 +1,4 @@
+using Discord;
 using Discord.Commands;
 
 namespace Rover.Modules
@@ -9,8 +10,28 @@ namespace Rover.Modules
         public async Task FlipCoin()
         {
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            if ((rand.Next() % 2) == 1) await ReplyAsync("Heads");
-            else await ReplyAsync("Tails");
+            if ((rand.Next() % 2) == 1)
+            {
+                var msgembed = new EmbedBuilder
+                {
+                    Title = ":coin: Coin Flip",
+                    Description = "Heads!",
+                    Color = 0x9E845d,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                };
+                await ReplyAsync(embed: msgembed.Build());
+            }
+            else
+            {
+                var msgembed = new EmbedBuilder
+                {
+                    Title = ":coin: Coin Flip",
+                    Description = "Tails!",
+                    Color = 0x9E845d,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                };
+                await ReplyAsync(embed: msgembed.Build());
+            }
         }
     }
 }
