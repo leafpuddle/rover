@@ -1,3 +1,4 @@
+using Discord;
 using Discord.Commands;
 
 namespace Rover.Modules
@@ -14,13 +15,39 @@ namespace Rover.Modules
             {
                 listpage = System.IO.File.ReadAllText(@"./Lists/list.txt");
             }
-            catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
+            catch (DirectoryNotFoundException)
             {
-                await ReplyAsync("Contact the Rover Admin. The list page is not found, which could mean there are issues with me.");
+                var errembed = new EmbedBuilder
+                {
+                    Title = ":warning: ERROR",
+                    Description = "Contact the Rover admins. The list directory is not found, which could mean there are issues with me.",
+                    Color = 0xC25955,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                };
+                await ReplyAsync(embed: errembed.Build());
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                var errembed = new EmbedBuilder
+                {
+                    Title = ":warning: ERROR",
+                    Description = "Contact the Rover admins. The category list is not found, which could mean there are issues with me.",
+                    Color = 0xC25955,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                };
+                await ReplyAsync(embed: errembed.Build());
                 return;
             }
 
-            await ReplyAsync(listpage);
+            var msgembed = new EmbedBuilder
+            {
+                Title = ":bookmark_tabs: List - categories",
+                Description = $"{listpage}",
+                Color = 0x419BC4,
+                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+            };
+            await ReplyAsync(embed: msgembed.Build());
         }
 
         [Command("list")]
@@ -35,11 +62,28 @@ namespace Rover.Modules
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
-                await ReplyAsync("This category is not found.");
+                var errembed = new EmbedBuilder
+                {
+                    Title = ":bookmark_tabs: List - Category Not Found",
+                    Description =
+                        "This category is not found.\n" +
+                        "Either the category name was typed incorrectly, or the category doesn't exist.\n" +
+                        "If you think there should be a list for this category, contact the Rover admins.",
+                    Color = 0xC25955,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                };
+                await ReplyAsync(embed: errembed.Build());
                 return;
             }
 
-            await ReplyAsync(listpage);
+            var msgembed = new EmbedBuilder
+            {
+                Title = $":bookmark_tabs: List - {category}",
+                Description = $"{listpage}",
+                Color = 0x419BC4,
+                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+            };
+            await ReplyAsync(embed: msgembed.Build());
         }
     }
 }

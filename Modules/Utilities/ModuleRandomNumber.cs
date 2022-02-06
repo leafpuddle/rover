@@ -1,3 +1,4 @@
+using Discord;
 using Discord.Commands;
 
 namespace Rover.Modules
@@ -9,7 +10,14 @@ namespace Rover.Modules
         public async Task RandomNumber()
         {
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            await ReplyAsync(((rand.Next() % 100) + 1).ToString());
+            var msgembed = new EmbedBuilder
+            {
+                Title = ":grey_question: Random Number - 1 to 100",
+                Description = ((rand.Next() % 100) + 1).ToString(),
+                Color = 0x9E845d,
+                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+            };
+            await ReplyAsync(embed: msgembed.Build());
         }
 
         [Command("randomnumber")]
@@ -18,12 +26,26 @@ namespace Rover.Modules
         {
             if (a < 1)
             {
-                await ReplyAsync("The value must be greater than or equal to 1.");
+                var errembed = new EmbedBuilder
+                {
+                    Title = ":grey_question: Random Number - Error",
+                    Description = "The value must be greater than or equal to 1.",
+                    Color = 0xC25955,
+                    Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+                };
+                await ReplyAsync(embed: errembed.Build());
                 return;
             }
 
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            await ReplyAsync(((rand.Next() % a) + 1).ToString());
+            var msgembed = new EmbedBuilder
+            {
+                Title = $":grey_question: Random Number - 1 to {a}",
+                Description = ((rand.Next() % a) + 1).ToString(),
+                Color = 0x9E845d,
+                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+            };
+            await ReplyAsync(embed: msgembed.Build());
         }
 
         [Command("randomnumber")]
@@ -42,7 +64,14 @@ namespace Rover.Modules
             upper = Math.Max(a, b);
 
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            await ReplyAsync(((rand.Next() % (upper - lower)) + lower).ToString());
+            var msgembed = new EmbedBuilder
+            {
+                Title = $":grey_question: Random Number - {lower} to {upper}",
+                Description = ((rand.Next() % ((upper + 1) - lower)) + lower).ToString(),
+                Color = 0x9E845d,
+                Footer = new EmbedFooterBuilder { Text = $"Response to {Context.User.Username}" },
+            };
+            await ReplyAsync(embed: msgembed.Build());
         }
     }
 }
