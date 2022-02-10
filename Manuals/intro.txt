@@ -1,0 +1,5 @@
+```
+intro: Displays a short introduction text explaining what Rover is.
+
+Usage: !intro
+```

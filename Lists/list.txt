@@ -1,0 +1,7 @@
+```
+Here is a list of all command categories I have. Type !list [category] to see all commands available in that category. You can let Finch or Vi know of any new features you'd like to see implemented. If you want to get involved with my development, let us know!
+
+- devtools
+- information
+- utilities
+```
