@@ -2,11 +2,12 @@
 help: Displays a manual page explaining how to use a specific command. If no command is specified, this manual page is displayed. To get a list of commands Rover can perform, use the !list command.
 
 Usage: !help
-Usage: !help [command]
+       !help [command]
 
-Example: !help
-  - Returns this dialogue.
+Examples:
+!help
+- Returns this dialogue.
 
-Example: !help list
-  - Returns the manual page for the !list command.
+!help list
+- Returns the manual page for the !list command.
 ```
