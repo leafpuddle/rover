@@ -9,7 +9,7 @@ namespace Rover.Modules
         [Summary("Provides an introduction to the functionality of the bot.")]
         public async Task Intro()
         {
-            var msgembed = new EmbedBuilder
+            Embed embed = new EmbedBuilder
             {
                 Title = ":robot: Introduction",
                 Description = 
@@ -26,9 +26,13 @@ namespace Rover.Modules
 
                     "It's nice to meet you! Happy chatting!",
                 Color = 0x419BC4,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
-            };
-            await ReplyAsync(embed: msgembed.Build());
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
+            }.Build();
+
+            await ReplyAsync(embed: embed);
         }
     }
 }

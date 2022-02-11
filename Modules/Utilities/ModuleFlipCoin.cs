@@ -9,35 +9,25 @@ namespace Rover.Modules
         [Summary("Returns the result of a coin flip.")]
         public async Task FlipCoin()
         {
+            string result;
+
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            if ((rand.Next() % 2) == 1)
+
+            if ((rand.Next() % 2) == 1) result = "Heads!";
+            else result = "Tails!";
+
+            Embed embed = new EmbedBuilder
             {
-                var msgembed = new EmbedBuilder
+                Title = ":coin: Flip Coin",
+                Description = result,
+                Color = 0x9E845d,
+                Footer = new EmbedFooterBuilder
                 {
-                    Title = ":coin: Coin Flip",
-                    Description = "Heads!",
-                    Color = 0x9E845d,
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
-                    }
-                };
-                await ReplyAsync(embed: msgembed.Build());
-            }
-            else
-            {
-                var msgembed = new EmbedBuilder
-                {
-                    Title = ":coin: Coin Flip",
-                    Description = "Tails!",
-                    Color = 0x9E845d,
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
-                    }
-                };
-                await ReplyAsync(embed: msgembed.Build());
-            }
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
+            }.Build();
+
+            await ReplyAsync(embed: embed);
         }
     }
 }
