@@ -9,14 +9,18 @@ namespace Rover.Modules
         [Summary("Provides version information for debugging purposes.")]
         public async Task Version()
         {
-            var msgembed = new EmbedBuilder
+            Embed embed = new EmbedBuilder
             {
                 Title = ":gear: Version",
                 Description = "Rover: v0.1",
                 Color = 0x7CA37D,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
-            };
-            await ReplyAsync(embed: msgembed.Build());
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
+            }.Build();
+
+            await ReplyAsync(embed: embed);
         }
     }
 }

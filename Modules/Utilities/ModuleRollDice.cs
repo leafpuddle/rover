@@ -9,46 +9,62 @@ namespace Rover.Modules
         [Summary("Returns the result of a 20-sided dice roll.")]
         public async Task RollDice()
         {
-            Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            var msgembed = new EmbedBuilder
-            {
-                Title = ":game_die: Dice Roll - 20-Sided Die",
-                Description = ((rand.Next() % 20) + 1).ToString(),
-                Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
-            };
-            await ReplyAsync(embed: msgembed.Build());
+            int result = GenerateResult(20);
+            await ReplyAsync(embed: GenerateEmbed(20, result));
         }
 
         [Command("rolldice")]
         [Summary("Returns the result of an N-sided dice roll.")]
         public async Task RollDice(int sides)
         {
-            if (sides <= 0)
+            if (sides <= 0 || sides > Int32.MaxValue)
             {
-                var errembed = new EmbedBuilder
-                {
-                    Title = ":game_die: Dice Roll - Error",
-                    Description = "The value must be greater than or equal to 1.",
-                    Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
-                    }
-                };
-                await ReplyAsync(embed: errembed.Build());
+                await ReplyAsync(embed: GenerateError(
+                    $"The number of sides must be greater than or equal to 1 and less than or equal to {Int32.MaxValue}."
+                ));
                 return;
             }
 
+            int result = GenerateResult(sides);
+            await ReplyAsync(embed: GenerateEmbed(sides, result));
+        }
+
+        int GenerateResult(int sides)
+        {
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            var msgembed = new EmbedBuilder
+            return (rand.Next() % sides) + 1;
+        }
+
+        Embed GenerateEmbed(int sides, int result)
+        {
+            EmbedBuilder embed = new EmbedBuilder
             {
-                Title = $":game_die: Dice Roll - {sides}-Sided Die",
-                Description = ((rand.Next() % sides) + 1).ToString(),
+                Title = $":game_die: Roll Dice - {sides}-Sided Die",
+                Description = $"{result}",
                 Color = 0x9E845d,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
             };
-            await ReplyAsync(embed: msgembed.Build());
+
+            return embed.Build();
+        }
+
+        Embed GenerateError(string message)
+        {
+            EmbedBuilder embed = new EmbedBuilder
+            {
+                Title = ":game_die: Roll Dice - Error",
+                Description = message,
+                Color = 0xC25955,
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
+            };
+
+            return embed.Build();
         }
     }
 }

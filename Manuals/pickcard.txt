@@ -1,0 +1,5 @@
+```
+pickcard: Draws a random card from a standard deck of playing cards. Jokers are not included.
+
+Usage: !pickcard
+```
