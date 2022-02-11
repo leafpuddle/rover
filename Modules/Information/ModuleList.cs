@@ -15,45 +15,26 @@ namespace Rover.Modules
             {
                 listpage = System.IO.File.ReadAllText(@"./Lists/list.txt");
             }
-            catch (DirectoryNotFoundException)
+            catch (DirectoryNotFoundException e)
             {
-                var errembed = new EmbedBuilder
-                {
-                    Title = ":warning: ERROR",
-                    Description = "Contact the Rover admins. The list directory is not found, which could mean there are issues with me.",
-                    Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
-                    }
-                };
-                await ReplyAsync(embed: errembed.Build());
+                await ReplyAsync(embed: GenerateError(
+                    "System Error",
+                    "Contact the Rover admins. The list directory is not found, which could mean there are issues with me.\n\n" + e
+                ));
+
                 return;
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
-                var errembed = new EmbedBuilder
-                {
-                    Title = ":warning: ERROR",
-                    Description = "Contact the Rover admins. The category list is not found, which could mean there are issues with me.",
-                    Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
-                    }
-                };
-                await ReplyAsync(embed: errembed.Build());
+                await ReplyAsync(embed: GenerateError(
+                    "System Error",
+                    "Contact the Rover admins. The category list is not found, which could mean there are issues with me.\n\n" + e
+                ));
+
                 return;
             }
 
-            var msgembed = new EmbedBuilder
-            {
-                Title = ":bookmark_tabs: List - categories",
-                Description = $"{listpage}",
-                Color = 0x419BC4,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
-            };
-            await ReplyAsync(embed: msgembed.Build());
+            await ReplyAsync(embed: GenerateEmbed("Categories", listpage));
         }
 
         [Command("list")]
@@ -66,33 +47,60 @@ namespace Rover.Modules
             {
                 listpage = System.IO.File.ReadAllText(@$"./Lists/{category}.txt");
             }
+            catch (DirectoryNotFoundException e)
+            {
+                await ReplyAsync(embed: GenerateError(
+                    "System Error",
+                    "Contact the Rover admins. The list directory is not found, which could mean there are issues with me.\n\n" + e
+                ));
+
+                return;
+            }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
-                var errembed = new EmbedBuilder
-                {
-                    Title = ":bookmark_tabs: List - Category Not Found",
-                    Description =
-                        "This category is not found.\n" +
-                        "Either the category name was typed incorrectly, or the category doesn't exist.\n" +
-                        "If you think there should be a list for this category, contact the Rover admins.",
-                    Color = 0xC25955,
-                    Footer = new EmbedFooterBuilder
-                    {
-                        Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
-                    }
-                };
-                await ReplyAsync(embed: errembed.Build());
+                await ReplyAsync(embed: GenerateError(
+                    "Category Not Found",
+                    "This category is not found.\n" +
+                    "Either the category name was typed incorrectly, or the category doesn't exist.\n" +
+                    "If you think there should be a list for this category, contact the Rover admins."
+                ));
+
                 return;
             }
 
-            var msgembed = new EmbedBuilder
+            await ReplyAsync(embed: GenerateEmbed(category, listpage));
+        }
+
+        Embed GenerateEmbed(string category, string listpage)
+        {
+            Embed embed = new EmbedBuilder
             {
                 Title = $":bookmark_tabs: List - {category}",
-                Description = $"{listpage}",
+                Description = listpage,
                 Color = 0x419BC4,
-                Footer = new EmbedFooterBuilder { Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}" }
-            };
-            await ReplyAsync(embed: msgembed.Build());
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
+            }.Build();
+
+            return embed;
+        }
+
+        Embed GenerateError(string header, string message)
+        {
+            Embed embed = new EmbedBuilder
+            {
+                Title = $":bookmark_tabs: List - Error - {header}",
+                Description = message,
+                Color = 0xC25955,
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
+                }
+            }.Build();
+
+            return embed;
         }
     }
 }

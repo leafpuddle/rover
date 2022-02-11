@@ -66,7 +66,7 @@ namespace Rover.Modules
 
         Embed GenerateEmbed(int lower, int upper, int result)
         {
-            EmbedBuilder embed = new EmbedBuilder
+            Embed embed = new EmbedBuilder
             {
                 Title = $":grey_question: Random Number - {lower} to {upper}",
                 Description = $"{result}",
@@ -75,14 +75,14 @@ namespace Rover.Modules
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
                 }
-            };
+            }.Build();
 
-            return embed.Build();
+            return embed;
         }
 
         Embed GenerateError(string message)
         {
-            EmbedBuilder embed = new EmbedBuilder
+            Embed embed = new EmbedBuilder
             {
                 Title = ":grey_question: Random Number - Error",
                 Description = message,
@@ -91,9 +91,9 @@ namespace Rover.Modules
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
                 }
-            };
+            }.Build();
 
-            return embed.Build();
+            return embed;
         }
     }
 }
