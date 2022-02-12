@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="3.2.1" />
+    <PackageReference Include="Npgsql" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup> 
