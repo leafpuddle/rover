@@ -13,16 +13,15 @@ namespace Rover.Modules
 
             ModelCard[] drawpool = QueryModelTcg.GetCards().Result;
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
-            ModelCard card = drawpool[rand.Next() % drawpool.Length];
+            ModelCard card = drawpool[rand.Next(0, drawpool.Length)];
 
             await QueryModelTcg.UpdateInventory(Context.User.Id, card.id, 1);
 
             Embed embed = new EmbedBuilder
             {
                 Title = $":gift: You've Received A Gift - {card.name}",
-                Description =
-                    card.description + "\n\n" +
-                    "[pretend theres an image here]",
+                Description = card.description,
+                ImageUrl = @$"https://rover.us-east-1.linodeobjects.com/{card.id}.png",
                 Color = 0x7CA37D,
                 Footer = new EmbedFooterBuilder
                 {
