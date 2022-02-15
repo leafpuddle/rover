@@ -10,9 +10,15 @@ namespace Rover.Modules
         [Summary("Responds to a ping.")]
         public async Task TestDatabase()
         {
-            await Database.ValidateUser(Context.User, ((IGuildUser)Context.User).Nickname);
+            await QueryModelRover.ValidateUser(Context.User, ((IGuildUser)Context.User).Nickname);
 
             ModelCard[] cards = await QueryModelTcg.GetCards(id: "apple", name: "Banana");
+
+            if(cards.Length <= 0)
+            {
+                await ReplyAsync("Nothing returned.");
+                return;
+            }
 
             StringBuilder reply = new StringBuilder();
 
@@ -26,7 +32,7 @@ namespace Rover.Modules
                 );
             }
 
-            await ReplyAsync(reply.ToString() ?? "Nothing returned.");
+            await ReplyAsync(reply.ToString());
         }
     }
 }

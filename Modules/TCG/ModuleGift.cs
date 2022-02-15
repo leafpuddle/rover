@@ -9,7 +9,7 @@ namespace Rover.Modules
         [Summary("Provides a gifted card to the requester.")]
         public async Task Gift()
         {
-            await Database.ValidateUser(Context.User, ((IGuildUser)Context.User).Nickname);
+            await QueryModelRover.ValidateUser(Context.User, ((IGuildUser)Context.User).Nickname);
 
             ModelCard[] drawpool = QueryModelTcg.GetCards().Result;
             Random rand = new Random(int.Parse(DateTime.Now.ToString("MMddHHmmss")));
