@@ -12,7 +12,7 @@ namespace Rover.Modules
         {
             await Database.ValidateUser(Context.User, ((IGuildUser)Context.User).Nickname);
 
-            ModelCard[] cards = await QueryModelTcg.GetCards(desc: "Tart");
+            ModelCard[] cards = await QueryModelTcg.GetCards(id: "apple", name: "Banana");
 
             StringBuilder reply = new StringBuilder();
 
@@ -26,7 +26,7 @@ namespace Rover.Modules
                 );
             }
 
-            await ReplyAsync(reply.ToString());
+            await ReplyAsync(reply.ToString() ?? "Nothing returned.");
         }
     }
 }

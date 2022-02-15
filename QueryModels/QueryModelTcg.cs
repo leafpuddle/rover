@@ -1,5 +1,4 @@
 using Npgsql;
-using System.Text;
 
 namespace Rover
 {
@@ -7,58 +6,49 @@ namespace Rover
     {
         public static async Task<ModelCard[]> GetCards
         (
-            string? id = null, string? name = null, string? desc = null, short? rarity = null, short? series = null, int? value = null
+            string? id = null,
+            string? name = null,
+            string? desc = null,
+            short? rarity = null,
+            short? series = null,
+            int? value = null,
+            bool search = false
+
         )
         {
             await using NpgsqlConnection conn = new NpgsqlConnection(Database.connString);
             await conn.OpenAsync();
 
-            StringBuilder query = new StringBuilder();
-
-            query.Append("SELECT id, name, description, rarity, series, value FROM tcg_cards");
+            string query = "SELECT id, name, description, rarity, series, value FROM tcg_cards";
 
             if(id != null || name != null || desc != null || rarity != null || series != null || value != null)
             {
-                query.Append(" WHERE ");
-                bool includeAnd = false;
+                query += " WHERE ";
+                List<string> arguments = new List<string>();
 
-                if(id != null)
-                {
-                    query.Append($"id = '{id}'");
-                    includeAnd = true;
-                }
-                if(name != null)
-                {
-                    if(includeAnd) query.Append(" AND ");
-                    query.Append($"name = '{name}'");
-                    includeAnd = true;
-                }
-                if(desc != null)
-                {
-                    if(includeAnd) query.Append(" AND ");
-                    query.Append($"description LIKE '%{desc}%'");
-                    includeAnd = true;
-                }
-                if(rarity != null)
-                {
-                    if(includeAnd) query.Append(" AND ");
-                    query.Append($"rarity = {rarity}");
-                    includeAnd = true;
-                }
-                if(series != null)
-                {
-                    if(includeAnd) query.Append(" AND ");
-                    query.Append($"series = {series}");
-                    includeAnd = true;
-                }
-                if(value != null)
-                {
-                    if(includeAnd) query.Append(" AND ");
-                    query.Append($"value = {value}");
-                }
+                if(id != null) arguments.Add("id = $1");
+                if(name != null) arguments.Add("name = $2");
+                if(desc != null) arguments.Add("description LIKE $3");
+                if(rarity != null) arguments.Add("rarity = $4");
+                if(series != null) arguments.Add("series = $5");
+                if(value != null) arguments.Add("value = $6");
+
+                query += string.Join(search ? " OR " : " AND ", arguments.ToArray());
             }
 
-            await using var cmdGetCards = new NpgsqlCommand(query.ToString(), conn);
+            await using var cmdGetCards = new NpgsqlCommand(query, conn)
+            {
+                Parameters =
+                {
+                    new() { Value = id ?? "" },
+                    new() { Value = name ?? "" },
+                    new() { Value = "%" + desc + "%" },
+                    new() { Value = rarity ?? 0 },
+                    new() { Value = series ?? 0 },
+                    new() { Value = value ?? 0 }
+                }
+            };
+            await cmdGetCards.PrepareAsync();
             await using var reader = await cmdGetCards.ExecuteReaderAsync();
 
             List<ModelCard> cards = new List<ModelCard>();
@@ -79,6 +69,35 @@ namespace Rover
             await conn.CloseAsync();
 
             return cards.ToArray();
+        }
+
+        public static async Task UpdateInventory(ulong user, string card, int value, bool overwrite = false)
+        {
+            await using NpgsqlConnection conn = new NpgsqlConnection(Database.connString);
+            await conn.OpenAsync();
+
+            string query = 
+                "INSERT INTO tcg_inventory (\"user\", card, quantity) " +
+                "VALUES ($1, $2, GREATEST(0, $3)) " +
+                "ON CONFLICT ON CONSTRAINT \"pkey-tcg_inventory\" DO UPDATE SET " +
+                "quantity = GREATEST(0, ";
+            if(!overwrite)
+                query += "tcg_inventory.quantity + ";
+            query += "$3);";
+
+            await using var cmdUpdateInv = new NpgsqlCommand(query, conn)
+            {
+                Parameters =
+                {
+                    new() { Value = (long)user },
+                    new() { Value = card },
+                    new() { Value = value }
+                }
+            };
+            await cmdUpdateInv.PrepareAsync();
+            await cmdUpdateInv.ExecuteNonQueryAsync();
+
+            await conn.CloseAsync();
         }
     }
 }

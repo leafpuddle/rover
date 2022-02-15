@@ -33,10 +33,7 @@ namespace Rover
             _client.Log += Log;
             _commands.Log += Log;
 
-            try
-            {
-                _botToken = Environment.GetEnvironmentVariable("rover_botToken");
-            }
+            try { _botToken = Environment.GetEnvironmentVariable("rover_botToken"); }
             catch (ArgumentNullException e) when (_botToken == null)
             {
                 Log(new LogMessage(

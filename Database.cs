@@ -5,20 +5,30 @@ namespace Rover
 {
     public static class Database
     {
+        public static string connString;
+
         private static string? databaseName;
         private static string? databaseHost;
         private static string? databaseUser;
         private static string? databasePass;
         private static string? databasePort;
-        public static string connString;
 
         static Database()
         {
-            databaseName = Environment.GetEnvironmentVariable("rover_dbName");
-            databaseHost = Environment.GetEnvironmentVariable("rover_dbHost");
-            databasePass = Environment.GetEnvironmentVariable("rover_dbPass");
-            databaseUser = Environment.GetEnvironmentVariable("rover_dbUser");
-            databasePort = Environment.GetEnvironmentVariable("rover_dbPort");
+            try { databaseName = Environment.GetEnvironmentVariable("rover_dbName"); }
+            catch (Exception e) when (databaseName == null) { Console.WriteLine(e); databaseName = "rover_db"; }
+            
+            try { databaseHost = Environment.GetEnvironmentVariable("rover_dbHost"); }
+            catch (Exception e) when (databaseHost == null) { Console.WriteLine(e); databaseHost = "localhost"; }
+
+            try { databaseUser = Environment.GetEnvironmentVariable("rover_dbUser"); }
+            catch (Exception e) when (databaseUser == null) { Console.WriteLine(e); databaseUser = "rover_user"; }
+
+            try { databasePass = Environment.GetEnvironmentVariable("rover_dbPass"); }
+            catch (Exception e) when (databasePass == null) { Console.WriteLine(e); databasePass = "password"; }
+
+            try { databasePort = Environment.GetEnvironmentVariable("rover_dbPort"); }
+            catch (Exception e) when (databasePort == null) { Console.WriteLine(e); databasePort = "5432"; }
 
             connString =
                 $"Host={databaseHost};" +
@@ -28,40 +38,30 @@ namespace Rover
                 $"Port={databasePort};";
         }
 
-        public static async Task<string> TestDatabase()
-        {
-            await using NpgsqlConnection conn = new NpgsqlConnection(connString);
-            await conn.OpenAsync();
-
-            await using var cmd = new NpgsqlCommand("SELECT name FROM tcg_cards WHERE id='giga_chad'", conn);
-            await using var reader = await cmd.ExecuteReaderAsync();
-
-            string returnValue = "didn't work";
-
-            while (await reader.ReadAsync())
-            {
-                returnValue = reader.GetString(0);
-            }
-
-            await conn.CloseAsync();
-
-            return returnValue;
-        }
-
         public static async Task ValidateUser(IUser user, string? nickname = null)
         {
             await using NpgsqlConnection conn = new NpgsqlConnection(connString);
             await conn.OpenAsync();
 
-            await using NpgsqlCommand cmdCheckUser = new NpgsqlCommand(
+            string query =
                 "INSERT INTO r_users (id, username, discriminator, nickname) " +
-                $"VALUES ({user.Id}, '{user.Username}', {user.Discriminator}, '{nickname ?? user.Username}') " +
+                "VALUES ($1, $2, $3, $4) " +
                 "ON CONFLICT (id) DO UPDATE SET " +
-                $"username = '{user.Username}'," +
-                $"discriminator = {user.Discriminator}," +
-                $"nickname = '{nickname ?? user.Username}';",
-                conn
-            );
+                "username = $2," +
+                "discriminator = $3," +
+                "nickname = $4;";
+
+            await using NpgsqlCommand cmdCheckUser = new NpgsqlCommand(query, conn)
+            {
+                Parameters =
+                {
+                    new() { Value = (long)user.Id },
+                    new() { Value = user.Username },
+                    new() { Value = short.Parse(user.Discriminator) },
+                    new() { Value = nickname ?? user.Username }
+                }
+            };
+            await cmdCheckUser.PrepareAsync();
             await cmdCheckUser.ExecuteNonQueryAsync();
 
             await conn.CloseAsync();
