@@ -10,7 +10,7 @@ namespace Rover
         private static string? databaseUser;
         private static string? databasePass;
         private static string? databasePort;
-        private static string connString;
+        public static string connString;
 
         static Database()
         {
@@ -43,7 +43,7 @@ namespace Rover
                 returnValue = reader.GetString(0);
             }
 
-            conn.Close();
+            await conn.CloseAsync();
 
             return returnValue;
         }

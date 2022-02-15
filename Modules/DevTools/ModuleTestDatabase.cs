@@ -1,6 +1,6 @@
 using Discord;
 using Discord.Commands;
-using Rover;
+using System.Text;
 
 namespace Rover.Modules
 {
@@ -12,7 +12,21 @@ namespace Rover.Modules
         {
             await Database.ValidateUser(Context.User, ((IGuildUser)Context.User).Nickname);
 
-            await ReplyAsync("If this says 'Giga Chad' the DB is working: " + Database.TestDatabase().Result);
+            ModelCard[] cards = await QueryModelTcg.GetCards(desc: "Tart");
+
+            StringBuilder reply = new StringBuilder();
+
+            foreach(ModelCard card in cards)
+            {
+                reply.Append
+                (
+                    $"{card.id}\n" +
+                    $"Name: {card.name}\n" +
+                    $"Description: {card.description}\n"
+                );
+            }
+
+            await ReplyAsync(reply.ToString());
         }
     }
 }
