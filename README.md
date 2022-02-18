@@ -11,7 +11,7 @@ https://rover.leafpuddle.io
 
 ## Dependencies
 
-- Discord.NET v3.2.1
+- Discord.NET v3.3.2
 - MSBuild v17.0.0
 - Npgsql v6.0.3
 
