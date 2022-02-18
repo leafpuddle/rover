@@ -13,7 +13,7 @@ namespace Rover.Modules
             {
                 Title = ":speaking_head: Echo",
                 Description = $"{message}",
-                Color = 0x8A439C,
+                Color = Config.COLOR_EMBED_MESSAGE,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

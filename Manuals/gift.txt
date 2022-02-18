@@ -1,0 +1,5 @@
+```
+gift: Gifts you a random card, weighted by rarity. You can only receive a gift once an hour.
+
+Usage: !gift
+```

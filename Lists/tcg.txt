@@ -1,0 +1,6 @@
+```
+TCG commands are associated with the Rover Trading Card Game.
+Use ![command] to run any command listed. Use !help [command] to learn how to use a command.
+
+- gift
+```

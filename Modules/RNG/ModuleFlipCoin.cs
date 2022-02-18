@@ -20,7 +20,7 @@ namespace Rover.Modules
             {
                 Title = ":coin: Flip Coin",
                 Description = result,
-                Color = 0x9E845d,
+                Color = Config.COLOR_EMBED_RNG_RESULT,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

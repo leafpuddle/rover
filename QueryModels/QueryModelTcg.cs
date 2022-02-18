@@ -13,7 +13,6 @@ namespace Rover
             short? series = null,
             int? value = null,
             bool search = false
-
         )
         {
             await using NpgsqlConnection conn = new NpgsqlConnection(Database.connString);
@@ -96,6 +95,59 @@ namespace Rover
             };
             await cmdUpdateInv.PrepareAsync();
             await cmdUpdateInv.ExecuteNonQueryAsync();
+
+            await conn.CloseAsync();
+        }
+
+        public static async Task<DateTime> GetTimestamp(ulong user)
+        {
+            await using NpgsqlConnection conn = new NpgsqlConnection(Database.connString);
+            await conn.OpenAsync();
+
+            DateTime returnValue = new DateTime();
+
+            string query =
+                "SELECT time FROM tcg_timestamps" +
+                $" WHERE \"user\" = $1";
+
+            await using var cmdGetTimestamp = new NpgsqlCommand(query, conn)
+            {
+                Parameters = { new() { Value = (long)user } }
+            };
+            await cmdGetTimestamp.PrepareAsync();
+            await using var reader = await cmdGetTimestamp.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                returnValue = reader.GetDateTime(0);
+            }
+
+            await conn.CloseAsync();
+
+            return returnValue;
+        }
+
+        public static async Task UpdateTimestamp(ulong user, DateTime time)
+        {
+            await using NpgsqlConnection conn = new NpgsqlConnection(Database.connString);
+            await conn.OpenAsync();
+
+            string query =
+                "INSERT INTO tcg_timestamps (\"user\", time) " +
+                "VALUES ($1, $2) " +
+                "ON CONFLICT ON CONSTRAINT \"pkey-tcg_timestamps\" DO UPDATE SET " +
+                "time = $2";
+            
+            await using var cmdUpdateTimestamp = new NpgsqlCommand(query, conn)
+            {
+                Parameters =
+                {
+                    new() { Value = (long)user },
+                    new() { Value = time }
+                }
+            };
+            await cmdUpdateTimestamp.PrepareAsync();
+            await cmdUpdateTimestamp.ExecuteNonQueryAsync();
 
             await conn.CloseAsync();
         }

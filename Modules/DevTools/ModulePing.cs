@@ -13,7 +13,7 @@ namespace Rover.Modules
             {
                 Title = ":satellite: Ping",
                 Description = "Ping Received",
-                Color = 0x7CA37D,
+                Color = Config.COLOR_EMBED_MESSAGE,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

@@ -41,7 +41,7 @@ namespace Rover.Modules
             {
                 Title = $":game_die: Roll Dice - {sides}-Sided Die",
                 Description = $"{result}",
-                Color = 0x9E845d,
+                Color = Config.COLOR_EMBED_RNG_RESULT,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
@@ -57,7 +57,7 @@ namespace Rover.Modules
             {
                 Title = ":game_die: Roll Dice - Error",
                 Description = message,
-                Color = 0xC25955,
+                Color = Config.COLOR_EMBED_ERROR,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

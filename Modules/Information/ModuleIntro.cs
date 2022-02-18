@@ -25,7 +25,7 @@ namespace Rover.Modules
                     "If you want to get involved with my development, let us know!\n\n" +
 
                     "It's nice to meet you! Happy chatting!",
-                Color = 0x419BC4,
+                Color = Config.COLOR_EMBED_MESSAGE,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
