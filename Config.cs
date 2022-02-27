@@ -4,6 +4,9 @@ namespace Rover
 {
     public static class Config
     {
+        // BASE INFO
+        public static string VERSION = "0.1";
+
         // COLORS
         public static Color COLOR_EMBED_MESSAGE = 0x7A7A7A;
         public static Color COLOR_EMBED_ERROR = 0xC25955;

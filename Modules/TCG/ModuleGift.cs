@@ -13,10 +13,7 @@ namespace Rover.Modules
 
             DateTime timestamp = QueryModelTcg.GetTimestamp(Context.User.Id).Result;
 
-            if(
-                timestamp != null &&
-                (DateTime.Now - timestamp).TotalHours < 1
-            )
+            if((DateTime.Now - timestamp).TotalHours < 1)
             {
                 await ReplyAsync(embed: GenerateError(
                     "Too Early",

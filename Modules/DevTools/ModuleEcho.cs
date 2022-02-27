@@ -7,7 +7,7 @@ namespace Rover.Modules
     {
         [Command("echo")]
         [Summary("Echoes a specified message.")]
-        public async Task Echo(string message)
+        public async Task Echo([Remainder]string message)
         {
             Embed embed = new EmbedBuilder
             {

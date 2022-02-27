@@ -12,7 +12,7 @@ namespace Rover.Modules
             Embed embed = new EmbedBuilder
             {
                 Title = ":gear: Version",
-                Description = "Rover: v0.1",
+                Description = "Rover: " + Config.VERSION,
                 Color = Config.COLOR_EMBED_MESSAGE,
                 Footer = new EmbedFooterBuilder
                 {
