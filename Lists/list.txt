@@ -3,5 +3,6 @@ Here is a list of all command categories I have. Type !list [category] to see al
 
 - devtools
 - information
-- utilities
+- rng
+- tcg
 ```

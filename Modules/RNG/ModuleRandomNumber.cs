@@ -70,7 +70,7 @@ namespace Rover.Modules
             {
                 Title = $":grey_question: Random Number - {lower} to {upper}",
                 Description = $"{result}",
-                Color = 0x9E845d,
+                Color = Config.COLOR_EMBED_RNG_RESULT,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
@@ -86,7 +86,7 @@ namespace Rover.Modules
             {
                 Title = ":grey_question: Random Number - Error",
                 Description = message,
-                Color = 0xC25955,
+                Color = Config.COLOR_EMBED_ERROR,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

@@ -77,7 +77,7 @@ namespace Rover.Modules
             {
                 Title = $":bookmark_tabs: List - {category}",
                 Description = listpage,
-                Color = 0x419BC4,
+                Color = Config.COLOR_EMBED_TOOLTIP,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"
@@ -93,7 +93,7 @@ namespace Rover.Modules
             {
                 Title = $":bookmark_tabs: List - Error - {header}",
                 Description = message,
-                Color = 0xC25955,
+                Color = Config.COLOR_EMBED_ERROR,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

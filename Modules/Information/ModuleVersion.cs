@@ -12,8 +12,8 @@ namespace Rover.Modules
             Embed embed = new EmbedBuilder
             {
                 Title = ":gear: Version",
-                Description = "Rover: v0.1",
-                Color = 0x7CA37D,
+                Description = "Rover: " + Config.VERSION,
+                Color = Config.COLOR_EMBED_MESSAGE,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Response to {((IGuildUser)Context.User).Nickname ?? Context.User.Username}"

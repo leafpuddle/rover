@@ -1,5 +1,5 @@
 ```
-Utilities are quick helper functions to output some type of data.
+RNG commands are functions to output some type of random data.
 Use ![command] to run any command listed. Use !help [command] to learn how to use a command.
 
 - flipcoin

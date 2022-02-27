@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
+using Rover.Modules;
 using System.Reflection;
 
 namespace Rover
@@ -9,6 +11,8 @@ namespace Rover
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
+        private readonly InteractionService _interactions;
+
         private readonly string? _botToken;
 
         static void Main(string[] args)
@@ -30,13 +34,16 @@ namespace Rover
                 CaseSensitiveCommands = false,
             });
 
+            _interactions = new InteractionService(_client, new InteractionServiceConfig
+            {
+                LogLevel = LogSeverity.Info
+            });
+
             _client.Log += Log;
             _commands.Log += Log;
+            _interactions.Log += Log;
 
-            try
-            {
-                _botToken = Environment.GetEnvironmentVariable("rover_botToken");
-            }
+            try { _botToken = Environment.GetEnvironmentVariable("rover_botToken"); }
             catch (ArgumentNullException e) when (_botToken == null)
             {
                 Log(new LogMessage(
@@ -86,7 +93,10 @@ namespace Rover
         private async Task InitCommands()
         {
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
+            await _interactions.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
+
             _client.MessageReceived += HandleCommandAsync;
+            _client.InteractionCreated += HandleInteractionAsync;
         }
 
         private async Task HandleCommandAsync(SocketMessage arg)
@@ -103,6 +113,17 @@ namespace Rover
 
                 var result = await _commands.ExecuteAsync(context, pos, services: null);
             }
+        }
+
+        private async Task HandleInteractionAsync(SocketInteraction arg)
+        {
+            if (arg == null) return;
+
+            if (arg.User.Id == _client.CurrentUser.Id || arg.User.IsBot) return;
+
+            var context = new SocketInteractionContext(_client, arg);
+
+            var result = await _interactions.ExecuteCommandAsync(context, services: null);
         }
     }
 }
